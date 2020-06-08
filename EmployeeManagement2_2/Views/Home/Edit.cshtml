@@ -1,0 +1,66 @@
+﻿@model EmployeeEditViewModel
+@inject IEmployeeRepository _empRepository
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/Images/" + (Model.ExistingPhotoPath ?? "Kof2k4se.bmp");
+}
+
+
+    <form enctype="multipart/form-data" asp-controller="Home" asp-action="Edit" method="post">
+        <input hidden asp-for="Id" />
+        <input hidden asp-for="ExistingPhotoPath" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Department" class="control-label"></label>
+            <select asp-for="Department" asp-items="Html.GetEnumSelectList<dept>()" class="form-control">
+                <option value="">Please Select</option>
+            </select>
+            <span asp-validation-for="Department" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Photo" class="control-label"></label>
+            <div class="custom-file">
+                <input multiple asp-for="Photo" class="form-control custom-file-input" />
+                <label class="custom-file-label">Change Photo ...</label>
+            </div>
+        </div>
+        <div class="text-center">
+            <img src="@photoPath" asp-append-version="true" />
+        </div>
+        <div asp-validation-summary="All"></div>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-controller="home" asp-action="index" class="btn btn-primary">Cancel</a>
+            </div>
+        </div>
+        @section Scripts {
+            <script>
+                $(document).ready(function () {
+                    $('.custom-file-input').on("change", function () {
+                        var fileLabel = $(this).next('.custom-file-label');
+                        var files = $(this)[0].files;
+                        if (files.length > 1) {
+                            fileLabel.html(files.length + ' Files selected.');
+                        }
+                        else if (files.length == 1) {
+                            fileLabel.html(files[0].name);
+                        }
+                    });
+                });
+            </script>
+        }
+    </form>
+
+

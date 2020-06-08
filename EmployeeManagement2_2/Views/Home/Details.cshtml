@@ -1,0 +1,28 @@
+﻿@model Employee
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var photoPath = "~/Images/" + (Model.PhotoPath ?? "Kof2k4se.bmp");
+}
+
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+               <h1>@Model.Name</h1>
+            </div>
+            <div class="card-body text-center">
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+                <h4>Name : @Model.Name</h4>
+                <h4>Department : @Model.Department</h4>
+                <h4>Email : @Model.Email</h4>
+            </div>
+            <div class="card-footer text-center">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Back</a>
+                <a  asp-action="edit" asp-controller="home" asp-route-id="@Model.Id" class="btn btn-success">Edit</a>
+                <a href="@Url.Action("Delete", "Home", new { id = Model.Id })" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
