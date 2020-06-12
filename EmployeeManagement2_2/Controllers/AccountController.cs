@@ -59,6 +59,10 @@ namespace EmployeeManagement2_2.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("ListUsers", "Admin");
+                    }
                     await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("index", "home");
                 }
@@ -103,6 +107,12 @@ namespace EmployeeManagement2_2.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Invalid ligin attempt");
             }
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
             return View();
         }
     }
