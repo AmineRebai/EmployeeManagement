@@ -38,6 +38,16 @@ namespace EmployeeManagement2_2
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "793203912718-ojbh86vt577gg79dv9hg7ts54g7qf5a9.apps.googleusercontent.com";
+                options.ClientSecret = "2Fvl82KXHXJavIFCLW6YC5yC";
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy",
+                    policy => policy.RequireClaim("Delete Role").RequireClaim("Create Role"));
+            });
             services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
         }
 

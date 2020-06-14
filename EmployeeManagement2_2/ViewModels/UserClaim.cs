@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement2_2.ViewModels
 {
-    public class UserRoleVm
+    public class UserClaim
     {
-        public string RoleId { get; set; }
-        public string RoleName { get; set; }
-        public string UserId { get; set; }
-        public string UserName { get; set; }
+        public string ClaimType { get; set; }
         public bool IsSelected { get; set; }
     }
 }
