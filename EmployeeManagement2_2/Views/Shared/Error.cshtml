@@ -1,8 +1,20 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Error";
+    ViewBag.Title = ViewBag.ErrorTitle;
 }
-<h3>
-    An occured while processing your request. The support
-    team is notified and we are working on the fix
-</h3>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+    <h3>
+        @ViewBag.ErrorMessage
+    </h3>
+        }
+        else
+        {
+        <h3>
+            An occured while processing your request. The support
+            team is notified and we are working on the fix
+        </h3>
+            }
+
+        

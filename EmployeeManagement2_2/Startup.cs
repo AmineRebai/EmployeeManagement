@@ -27,12 +27,13 @@ namespace EmployeeManagement2_2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("EmployeeDBConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-            services.Configure<IdentityOptions>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 10;
                 options.Password.RequiredUniqueChars = 0;
-            });
+                options.SignIn.RequireConfirmedEmail = true;
+            }).AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
             services.AddMvc(options =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -42,6 +43,10 @@ namespace EmployeeManagement2_2
             {
                 options.ClientId = "793203912718-ojbh86vt577gg79dv9hg7ts54g7qf5a9.apps.googleusercontent.com";
                 options.ClientSecret = "2Fvl82KXHXJavIFCLW6YC5yC";
+            }).AddFacebook(options =>
+            {
+                options.AppId = "335824200739355";
+                options.AppSecret = "652e3d7b92888fa2870d811e3b208aee";
             });
             services.AddAuthorization(options =>
             {
